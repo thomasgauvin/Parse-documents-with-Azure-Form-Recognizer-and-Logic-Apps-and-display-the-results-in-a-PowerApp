@@ -22,6 +22,15 @@ To view the parsed results, the user must click on a PDF file from the PowerApp 
 
 ### Logic App A: Process uploaded documents from Blob Storage with Form Recognizer and store results to Blob Storage
 
+![Untitled Diagram drawio (11)](https://user-images.githubusercontent.com/35609369/149404534-e1ec18fa-fbd7-466e-93c4-b4dd3f0e5b08.png)
+
+
 ### Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body
 
+![Untitled Diagram drawio (12)](https://user-images.githubusercontent.com/35609369/149404614-26dccead-c265-4072-8288-5900ae873996.png)
+
 ### PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results 
+
+![Untitled Diagram drawio (13)](https://user-images.githubusercontent.com/35609369/149404706-26091316-10ca-4689-a1f8-7fdbc9849664.png)
+
+
