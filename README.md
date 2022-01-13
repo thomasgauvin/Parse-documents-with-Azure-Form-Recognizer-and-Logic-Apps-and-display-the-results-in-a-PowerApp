@@ -40,9 +40,22 @@ Table of contents:
 
 #### Implement Logic App Logic
 
-1. In the Logic App, open the Logic App Designer (logic app from blank). 
-2. Search for Blob Storage and select the `When a blob is added or modified (properties only) (V2)` trigger
-  1. 
+
+1. In the Logic App, open the Logic App Designer (logic app from blank).
+2. Search for Blob Storage and select the `When a blob is added or modified (properties only) (V2)` trigger 
+    <details>
+    <summary>Substeps</summary>
+    <p>
+        # Hello
+        1. Connection name: `documentstoragebackend` (your choice of a connection name)
+        2. Authentication type: `Access Key`
+        3. Azure Storage Account name: the name of your storage account, in my case `documentstoragebackend`
+        4. Azure Storage Account Access Key: in another tab fetch your storage account access key as such ![](/images/2022-01-13-15-59-35.png)
+        ![](/images/2022-01-13-16-00-20.png)
+    </p>
+    </details>
+
+
 3. 
 
 ### 2. Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body
