@@ -43,20 +43,102 @@ Table of contents:
 
 1. In the Logic App, open the Logic App Designer (logic app from blank).
 2. Search for Blob Storage and select the `When a blob is added or modified (properties only) (V2)` trigger 
+
+    1. Connection name: `documentstoragebackend` (your choice of a connection name)
+    2. Authentication type: `Access Key`
+    3. Azure Storage Account name: the name of your storage account, in my case `documentstoragebackend`
+    4. Azure Storage Account Access Key: in another tab fetch your storage account access key & click create
+        <details>
+            <summary>Screenshot</summary>
+
+        ![](/images/2022-01-13-15-59-35.png)
+        </details>
+    
+    5. Select your storage account name as previously configured (`Use connection settings`)
+    6. Select container `/documents`
+    7. Set Number of blobs to return to `10`
+    8. How often do you want to check for items: once per minute
+
     <details>
-    <summary>Substeps</summary>
-    <p>
-        # Hello
-        1. Connection name: `documentstoragebackend` (your choice of a connection name)
-        2. Authentication type: `Access Key`
-        3. Azure Storage Account name: the name of your storage account, in my case `documentstoragebackend`
-        4. Azure Storage Account Access Key: in another tab fetch your storage account access key as such ![](/images/2022-01-13-15-59-35.png)
-        ![](/images/2022-01-13-16-00-20.png)
-    </p>
+    <summary>Screenshots</summary>
+
+    ![](/images/2022-01-13-16-00-20.png)
+    ![](/images/2022-01-13-16-11-14.png)
+    </details>
+3. Add a new step, search for `Parse JSON`
+    1. Set the Content as List of File (from the dynamic content modal)
+    2. Set the Schema as follows ([as documented](https://docs.microsoft.com/en-us/connectors/azureblobconnector/#blobmetadata)):
+    <details>
+    <summary>Schema</summary>
+
+    ```
+    {
+        "properties": {
+            "DisplayName": {
+                "type": "string"
+            },
+            "ETag": {
+                "type": "string"
+            },
+            "FileLocator": {
+                "type": "string"
+            },
+            "Id": {
+                "type": "string"
+            },
+            "IsFolder": {
+                "type": "boolean"
+            },
+            "LastModified": {
+                "type": "string"
+            },
+            "LastModifiedBy": {},
+            "MediaType": {
+                "type": "string"
+            },
+            "Name": {
+                "type": "string"
+            },
+            "Path": {
+                "type": "string"
+            },
+            "Size": {
+                "type": "integer"
+            }
+        },
+        "type": "object"
+    }
+    ```
     </details>
 
+    <details>
+    <summary>Screenshot</summary>
 
-3. 
+    ![](/images/2022-01-13-16-14-59.png)
+    </details>
+4. Add a new step, `Get blob Content (V2)`
+    1. For the Storage Account name, select `Use connection settings`
+    2. To specify the blob, select Id from the Dynamic content modal
+    3. Set Infer content type to `yes`
+    <details>
+    <summary>Screenshot</summary>
+
+    ![](/images/2022-01-13-16-25-02.png)
+    </details>
+5. Add a new step, searching for Analyze Layout from the Form Recognizer service.
+    1. Enter a connection name for your form recognizer, in my case `documentparsingformrecog`
+    2. In another tab, retrieve your Form Recognizer service Endpoint URL and Account key in the Azure Portal.
+    3. Enter your Endpoint URL, in my case `https://documentparsingformrecog.cognitiveservices.azure.com/`
+    4. Enter your Account Key & click create
+    5. Set Document/Image file content as `File Content` from the dynamic content modal
+    <details>
+    <summary>Screenshots</summary>
+
+    ![](/images/2022-01-13-16-29-54.png)
+    ![](/images/2022-01-13-16-29-06.png)
+    ![](/images/2022-01-13-16-31-15.png)
+    </details>
+6. Add a new step, searching for `Create blob V2`
 
 ### 2. Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body
 
