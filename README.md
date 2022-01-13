@@ -12,9 +12,9 @@ To upload a PDF, the user must click upload PDF from the PowerApp UI and provide
 To view the parsed results, the user must click on a PDF file from the PowerApp UI. This will display the PDF within the UI in the middle of the page. This will also display the parsed results in the right of the page (if they have been processed by the Logic App). A refresh button is available to refresh the parsed results until the Logic App has processed the PDF (depending on the recurrence of the Logic App).
 
 
-Upload PDF | ![Untitled Diagram drawio (8)](https://user-images.githubusercontent.com/35609369/149403292-ca218433-941a-42cf-a88f-ed1fb79c7e4c.png)
+**Upload PDF** | ![Untitled Diagram drawio (8)](https://user-images.githubusercontent.com/35609369/149403292-ca218433-941a-42cf-a88f-ed1fb79c7e4c.png)
 --- | ---
-View parsed results | ![Untitled Diagram drawio (7)](https://user-images.githubusercontent.com/35609369/149402262-21b359be-305a-44a4-8291-29e27cac41ac.png)
+**View parsed results** | ![Untitled Diagram drawio (7)](https://user-images.githubusercontent.com/35609369/149402262-21b359be-305a-44a4-8291-29e27cac41ac.png)
 
 ## How to build it
 
