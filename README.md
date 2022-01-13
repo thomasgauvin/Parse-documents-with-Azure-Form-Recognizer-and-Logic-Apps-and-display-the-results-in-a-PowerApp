@@ -17,6 +17,7 @@ To view the parsed results, the user must click on a PDF file from the PowerApp 
 --- | ---
 **View parsed results** | ![Untitled Diagram drawio (10)](https://user-images.githubusercontent.com/35609369/149404252-bab2aa77-d785-441f-8f39-4d8291bfaf61.png)
 
+<br/>
 
 ## How to build it
 
