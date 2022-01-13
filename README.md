@@ -19,3 +19,8 @@ To view the parsed results, the user must click on a PDF file from the PowerApp 
 
 ## How to build it
 
+### Logic App A: Process uploaded documents from Blob Storage with Form Recognizer and store results to Blob Storage
+
+### Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body
+
+### PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results 
