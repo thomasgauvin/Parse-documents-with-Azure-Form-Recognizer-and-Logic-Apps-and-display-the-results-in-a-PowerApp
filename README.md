@@ -30,6 +30,10 @@ Table of contents:
 
 ![Untitled Diagram drawio (11)](https://user-images.githubusercontent.com/35609369/149404534-e1ec18fa-fbd7-466e-93c4-b4dd3f0e5b08.png)
 
+1. In the Azure Portal, create new resource group for project. Mine will be called `document-parsing-backend`
+2. In the Azure Portal, create a storage account in your resource group for this project. Mine will be called `documentstoragebackend`. Performance standard and redundancy LRS are sufficient for this proof-of-concept.
+3. In the Azure Portal, create a logic app in your resource group for this project. Mine will be called `documentprocessingbackend`. The type is `consumption` for this proof-of-concept. 
+4. In the Azure Portal, create a Form Recognizer resource in your resource group for this project. Mine will be called `documentparsingformrecog`. The pricing tier will be `free` for this proof-of-concept.
 
 ### 2. Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body
 
