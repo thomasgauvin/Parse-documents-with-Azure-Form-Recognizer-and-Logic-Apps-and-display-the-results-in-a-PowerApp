@@ -181,6 +181,8 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
 
 *This step could be reconsidered for your use case. If you decided to store your data within a database such as Cosmos DB, you could connect to it directly from within your PowerApp and this extra API would not be necessary.
 
+![Untitled Diagram drawio (12)](https://user-images.githubusercontent.com/35609369/149404614-26dccead-c265-4072-8288-5900ae873996.png)
+
 #### Deploy Azure resources
 
 1. Deploy a new Logic App resource to your existing resource group (in my case `document-parsing-backend`)
@@ -200,11 +202,11 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
 
 1. Navigate to the Logic App you just created and select `Blank Logic App`
 
-<details>
-<summary>Screenshot</summary>
+    <details>
+    <summary>Screenshot</summary>
 
-![](/images2022-01-18-15-55-03.png)
-</details>
+    ![](/images/2022-01-18-15-55-03.png)
+    </details>
 
 2. Search for `When a HTTP request is received` as your trigger
     1. Set the Request Body JSON Schema as follows (when calling this endpoint, we will pass an object with a key filePath and a value representing the filePath of the document-parsed we want):
@@ -268,7 +270,7 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
     </details>
 
 
-![Untitled Diagram drawio (12)](https://user-images.githubusercontent.com/35609369/149404614-26dccead-c265-4072-8288-5900ae873996.png)
+
 
 ### 3. PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results 
 
