@@ -28,6 +28,10 @@ Table of contents:
 
 ### 1. Logic App A: Process uploaded documents from Blob Storage with Form Recognizer and store results to Blob Storage
 
+Logic App A is responsible for processing uploaded forms in the background. Upon a PDF being uploaded to Blob Storage, a Logic App will be triggered and will call a Form Recognizer to analyze the contents. The output of the Form Recognizer will be stored in Blob Storage by the Logic App.
+
+*Depending on your use case, it may be better to store the output of the Form Recognizer in a structured database such as Cosmos DB. For the sake of this Demo, we wanted to display only the transcript as received by the Form Recognizer so we decided to store it in Blob Storage.*
+
 ![Untitled Diagram drawio (11)](https://user-images.githubusercontent.com/35609369/149404534-e1ec18fa-fbd7-466e-93c4-b4dd3f0e5b08.png)
 
 #### Deploy Azure resources
@@ -38,8 +42,7 @@ Table of contents:
 4. In the Azure Portal, create a Form Recognizer resource in your resource group for this project. Mine will be called `documentparsingformrecog`. The pricing tier will be `free` for this proof-of-concept.
 5. Create 2 folders in the storage account: `documents` and `documents-parsed`. `documents` will store the PDFs and `documents-parsed` will store the Form Recognizer results.
 
-#### Implement Logic App Logic
-
+#### Implement Logic App A Logic
 
 1. In the Logic App, open the Logic App Designer (logic app from blank).
 2. Search for Blob Storage and select the `When a blob is added or modified (properties only) (V2)` trigger 
@@ -139,8 +142,131 @@ Table of contents:
     ![](/images/2022-01-13-16-31-15.png)
     </details>
 6. Add a new step, searching for `Create blob V2`
+    1. Set Storage account name as `Use connection settings`
+    2. Set Folder path as `/documents-parsed`
+    3. Set display name as `DisplayName.json`
+    4. Set Blob content as `analyzeResult` from the dynamic content modal
+
+    <details>
+    <summary>Screenshot</summary>
+
+    ![](/images/2022-01-18-15-32-05.png)
+    </details>
+7. Save the logic app. 
+8. Test that the logic app is working properly
+    1. From your resource group (in my case, `document-parsing-backend`), go to your storage account (in my case, `document-parsing-backend`)
+    2. Navigate to the containers. In the `/documents/ container, upload a sample PDF from your computer.
+    3. Return to the Logic App, in my case `documentprocessingbackend`
+    4. In the Logic App Overview, you should see a run has started in the Runs History tab (this may take up to 1 minute to be triggered). Click on it to see the details. From here, you can see each step in the Logic App, their inputs and their outputs.
+    5. Lastly, return to your storage account and verify that a blob with the parsed data has been stored in the `/documents-parsed` container as show in the screenshot. You can also download the file to ensure the contents are as expected as well. You should see a json object with the transcript as parsed by Form Recognizer.
+
+        ```
+        {"version":"2.1.0","readResults":[{"page":1,"angle":0,"width":8.2639,"height":11.6944,"unit":"inch","lines":[{"boundingBox":[2.7009,0.7449,5.5057,0.7449,5.5057,1.0947,2.7009,1.0947],"text":"James Anderson",
+        ...
+        }
+        ```
+
+    <details>
+    <summary>Screenshots</summary>
+
+    ![](/images/2022-01-18-15-34-23.png)
+    ![](/images/2022-01-18-15-35-40.png)
+    ![](/images/2022-01-18-15-37-52.png)
+    ![](/images/2022-01-18-15-38-56.png)
+    </details>
 
 ### 2. Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body
+
+Logic App B will provide an API to retrieve the contents of the Blob Storage file as an HTTP Response. This will allow our PowerApp to display the JSON as content. This is necessary because PowerApps does not have a native connector to display Txt/JSON data within an app.
+
+*This step could be reconsidered for your use case. If you decided to store your data within a database such as Cosmos DB, you could connect to it directly from within your PowerApp and this extra API would not be necessary.
+
+#### Deploy Azure resources
+
+1. Deploy a new Logic App resource to your existing resource group (in my case `document-parsing-backend`)
+    1. Set Resource-group as the one you created for this project
+    2. Set the Type to `Consumption`
+    3. Set the Logic App name to anything, in my case `documents-parsed-fetching`
+    4. Select any Region
+    5. Set Enable log analytics to `No`
+    6. Click Review + Create
+    <details>
+    <summary>Screenshot</summary>
+
+    ![](/images/2022-01-18-15-53-21.png)
+    </details>
+
+#### Implement Logic App B logic
+
+1. Navigate to the Logic App you just created and select `Blank Logic App`
+
+<details>
+<summary>Screenshot</summary>
+
+![](/images2022-01-18-15-55-03.png)
+</details>
+
+2. Search for `When a HTTP request is received` as your trigger
+    1. Set the Request Body JSON Schema as follows (when calling this endpoint, we will pass an object with a key filePath and a value representing the filePath of the document-parsed we want):
+        ```
+        {
+            "properties": {
+                "filePath": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+        ```
+3. Add a new step, searching for `Get blob content using path (V2)`
+    1. Set the connection name to represent a connection to your Storage account, in my case `documentparsedfetching`
+    2. Set the Authentication type as `Access Key`
+    3. Set the Azure Storage Account name to the name of your storage account, in my case `documentstoragebackend`
+    4. Set the Azure Storage Account Access Key to the Access Key of your Storage Account (retrieve it as done in the previous step)
+    5. Click create
+    6. Set Storage account name to `Use connection strings`
+    7. Set Blob path to filePath from the Dynamic Content modal
+    8. Set Infer content type to No (we just want to extract the raw content)
+
+    <details>
+    <summary>Screenshots</summary>
+
+    ![](/images/2022-01-18-16-00-47.png)
+    ![](/images/2022-01-18-16-02-47.png)
+    </details>
+4. Add a new step, searching for `Response`
+    1. Set Status Code as `200`
+    2. Set Headers as `Content-Type` `application/json`
+    3. Set Body as follows (as screenshot) **(note that quotes ("") must surround the `File Content` so that it is returned as a string)**:
+        ```
+        {
+            "fileContent": "[INSERT FILE CONTENT FROM DYNAMIC CONTENT MODAL]"
+        }
+        ```
+    <details>
+    <summary>Screenshot</summary>
+
+    ![](/images/2022-01-18-16-06-10.png)
+    </details>
+5. Save the Logic App. 
+6. From the Logic App designer, click `Run Trigger` > `Run with payload` to test your logic app.
+    1. Leave URL as default
+    2. Set Method as `POST`
+    3. Set body as follows, replacing the path of the filePath for the filePath of your parsed document from the documents-parsed container in your storage account. In my case, the body looks as follows:
+        ```
+        {
+            "filePath": "/documents-parsed/Resume 24.pdf.json"
+        }
+        ```
+    4. Press Run. You should see a Response Body with as an object, with a key fileContent and a value consisting of the contents of the JSON file (see screenshot)
+
+    <details>
+    <summary>Screenshots</summary>
+
+    ![](/images/2022-01-18-16-10-02.png)
+    ![](/images/2022-01-18-16-11-58.png)
+    </details>
+
 
 ![Untitled Diagram drawio (12)](https://user-images.githubusercontent.com/35609369/149404614-26dccead-c265-4072-8288-5900ae873996.png)
 
