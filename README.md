@@ -26,6 +26,8 @@ Table of contents:
 2. [Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body](#2-logic-app-b-upon-post-request-retrieve-content-of-parsed-results-from-blob-storage-and-respond-to-request-with-content-in-body)
 3. [PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results](#3-powerapp-display-folders-and-files-from-blob-storage-display-pdfs-and-call-logic-app-b-using-custom-connector-to-display-parsed-results)
 
+<br/>
+
 ### 1. Logic App A: Process uploaded documents from Blob Storage with Form Recognizer and store results to Blob Storage
 
 Logic App A is responsible for processing uploaded forms in the background. Upon a PDF being uploaded to Blob Storage, a Logic App will be triggered and will call a Form Recognizer to analyze the contents. The output of the Form Recognizer will be stored in Blob Storage by the Logic App.
@@ -175,6 +177,9 @@ Logic App A is responsible for processing uploaded forms in the background. Upon
     ![](/images/2022-01-18-15-38-56.png)
     </details>
 
+<br/>
+
+
 ### 2. Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body
 
 Logic App B will provide an API to retrieve the contents of the Blob Storage file as an HTTP Response. This will allow our PowerApp to display the JSON as content. This is necessary because PowerApps does not have a native connector to display Txt/JSON data within an app.
@@ -269,8 +274,7 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
     ![](/images/2022-01-18-16-11-58.png)
     </details>
 
-
-
+<br/>
 
 ### 3. PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results 
 
