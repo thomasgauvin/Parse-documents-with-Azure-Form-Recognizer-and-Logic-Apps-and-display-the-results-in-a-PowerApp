@@ -376,8 +376,118 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
     3. Test that the PDF viewer is working. It may take some time to load the PDF or you may have to click out of the currently selected PDF to another one to see the PDF viewer in effect.
 
         <details>
-        <summary>Screenshot</summary>
+        <summary>Screenshots</summary>
 
         ![](/images/2022-01-19-10-26-38.png)
         ![](/images/2022-01-19-10-28-55.png)
         </details>
+
+5. Create a custom connector to fetch the content of the file from our Logic App B
+    1. Save the PowerApp & exit the Power App to return to the main menu
+    2. Under the Data tab, click Custom Connectors 
+    3. Create a new Custom Connector from Blank
+
+
+
+    4. Configure the general configs of the Custom Connector
+        1. Open a new tab and return to your Logic App B in the Azure Studio. From the Logic App designer, click Run Trigger (with payload). From here, retrieve the URL.
+        2. Returning back to our PowerApps studio, we can finish configuring our custom connector. The `host` will be the host from the URL, and the base URL will be from workflows to triggers as such `/workflows/345fge...../triggers` (see screenshot). When finished, click Security to move to the next page.
+            <details>
+            <summary>Screenshot</summary>
+
+            ![](/images/2022-01-19-11-05-33.png)
+
+            </details>
+
+    5. Set `Authentication type` to `No authentication`. Click Next to move onto the definition.
+
+        <details>
+        <summary>Screenshot</summary>
+
+        ![](/images/2022-01-19-11-11-27.png)
+        </details>
+    6. In the Definition page, click `New action` to add an action.    
+        1. Set the `Summary` to `Call API`
+        2. Set the `Operation ID` to `callAPI`
+        3. Moving onto the request, click `Import from sample`
+        4. Fill out the sample request as indicated in the Logic App B. Set the `Verb` as `POST, set the `URL` as noted in your Logic App B (`https://prod-06.northcentralus.logic.azure.com:443/workflows/82d5da629f124...`). Set the `Headers` as `Content-Type application/json`. Set the  Body as 
+            ```
+            {
+                "fileContent": "string of file content"
+            }
+            ```
+
+        *If your `Import` button is disabled, switch the input method and back.*
+        5. For each of the Request Query parameters, edit them and ensure that the data type is string (in my case, the sv parameter defaults to integer but it should be string)
+
+        6. In the Response, click the default response. 
+        7. Click Import from sample. Set the `Headers` to `Content-Type application/json` and the `Body` to the following
+            ```
+            {
+                "filePath": "string path"
+            }
+            ```
+            Refer back to the Response in your Logic App B designer to see the details of the response returned.
+
+            <details>
+            <summary>Screenshots</summary>
+
+            ![](/images/2022-01-19-11-10-22.png)
+            ![](/images/2022-01-19-11-18-59.png)
+            ![](/images/2022-01-19-11-19-13.png)
+            ![](/images/2022-01-19-11-19-31.png)
+            </details>
+    7. Click Create Connector to create the custom connector
+    8. Test the Custom Connector by going to the test tab
+        1. Create new connection (this may redirect you to another page, return back to the custom connector Test tab and you will notice that a connection has been created)
+        2. For the parameters of the callAPI call, you will have to parse your URL from your Logic App B. For example, my Logic App B URL is the following (abridged for security) https://prod-06.northcentralus.logic.azure.com:443/workflows/82d5[ABRIDGED]a5/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1B-[ABRIDGED]-3dz8.
+
+            In this case, `api-version` will be `2016-10-01`, `sp` will be `/triggers/manual/run`, `sv` will be `1.0`, `sig` will be `1B-[ABRIDGED]-3dz8`.
+        
+            The Content-Type will be `application/json`
+
+            For further guidance, refer to the screenshots below.
+
+        3. Click test. You should receive a 200 response with a body (see screenshot)
+
+            <details>
+            <summary>Screenshots</summary>
+
+            ![](/images/2022-01-19-11-37-54.png)
+            ![](/images/2022-01-19-11-48-21.png)
+            </details>
+
+6. Call the Custom Connector from the Power App
+    1. Return to the PowerApp 
+    
+    2. From the Data tab, add the Custom Connector (in my case `fetch-documents`)
+    3. Replace the OnSelect with the following: 
+        ```
+        Select(Parent); Set(PDFPath, Concatenate(ThisItem.DisplayName, ".json")); Set(ParsedPDF, 'fetch-documents'.callAPI({'api-version':"2016-10-01", sp: "/triggers/manual/run", sv: "1.0", sig: "1B-[ABRIDGED]-3dz8", 'Content-Type': "application/json", filePath: Concatenate("/documents-parsed/", PDFPath)}));
+        ```
+
+        Here, we set PDFPath (a global variable), to the name of the selected file, with the added .json file extension as we are retrieving the parsed files from our Blob Storage.
+
+        We also set ParsedPDF, a global variable containing the response of the Custom Connector API Call. We call the custom connector (in my case `fetch-documents`), calling the callAPI method and passing all the required parameters as we did earlier when we were testing our custom connector.
+
+    4. From the Insert tab, insert a Text > HTML Text
+    5. Set the text of the HTML Text as ParsedPDF.fileContent.
+    6. Test your PowerApp to see if your PowerApp is working.
+
+        <details>
+        <summary>Screenshots</summary>
+
+        ![](/images/2022-01-19-11-53-57.png)
+        ![](/images/2022-01-19-12-22-19.png)
+        ![](/images/2022-01-19-12-26-00.png)
+        ![](/images/2022-01-19-12-34-09.png)
+        </details>
+
+
+*NOTE: In my experience, calling the Custom Connector from the PowerApp can be a bit tricky. For instance, while trying to implement, I have gotten this issue:*
+
+```
+fetch-documents.callAPI failed: {"error":{"code":"AuthorizationFailed","message":"The authentication credentials are not valid."}}
+```
+
+*In order to resolve this, I had to debug the Custom Connector, going back and setting default values in the Custom Connector definition. Using the Swagger editor for the Custom Connector can also be useful.*
