@@ -35,8 +35,8 @@ To view the parsed results, the user must click on a PDF file from the PowerApp 
     3. Select the CustomConnector/fetch-documents.swagger.json file
 
 5. In the PowerApps Studio ([make.powerapps.com](make.powerapps.com)). 
-    1. In the Create tab on the left, select Create from other Sources. Select Open on the Left, and then Browse Files. Select the File PowerAppExport/Microsoft.PowerApps/apps.958791291695911168/N963c2303-a452-45a7-b3e3-66a6448bb50a-document.msapp.
-    2. 
+    1. In the Create tab on the left, select Create from other Sources. Select Open on the Left, and then Browse Files. Select the File PowerAppExport/Microsoft.PowerApps/apps.958791291695911168/N963c2303-a452-45a7-b3e3-66a6448bb50a-document.msapp from this repository.
+    2. You may have to reconfigure the Blob Storage and Custom Connector fetch-documents Data connections. Refer to [HowToBuildIt.md](HowToBuildIt.md) for more details. 
 
 
 ## How to build it from scratch
