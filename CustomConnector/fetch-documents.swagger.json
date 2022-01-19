@@ -1,0 +1,96 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "fetch-documents",
+    "description": "Fetch File Content from Azure Logic App",
+    "version": "1.0"
+  },
+  "host": "prod-06.northcentralus.logic.azure.com",
+  "basePath": "/workflows/82d5da629f124a1dbcc61053e8e904a5/triggers",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/manual/paths/invoke": {
+      "post": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fileContent": {
+                  "type": "string",
+                  "description": "fileContent"
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "description": "Content-Type",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "summary": "Call API",
+        "operationId": "callAPI",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sp",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sv",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sig",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "application/json"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "filePath": {
+                  "type": "string",
+                  "description": "filePath"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {},
+  "security": [],
+  "tags": []
+}

@@ -21,6 +21,24 @@ To view the parsed results, the user must click on a PDF file from the PowerApp 
 
 ## How to deploy the current project
 
+1. Clone this project locally. This will facilitate accessing files.
+2. Deploy the Resources to Azure. You may do so with the below Deploy to Azure Button or by uploading the ArmTemplate/template.json file to the Azure Studio.
+
+
+    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fthomasgauvin%2FParse-documents-with-Azure-Form-Recognizer-and-Logic-Apps-and-display-the-results-in-a-PowerApp%2Fmain%2FArmTemplate%2Ftemplate.json)
+
+3. In the Logic Apps, configure the connection strings to the Blob Storage and the Form Recognizer if need be. You may refer to [HowToBuildIt.md](HowToBuildIt.md) for more details.
+
+4. In the PowerApps studio, create the Custom Connector. 
+    1. Under the Data tab, select Custom Connectors. 
+    2. Click New Custom Connector. Select Import from OpenAPI file.
+    3. Select the CustomConnector/fetch-documents.swagger.json file
+
+5. In the PowerApps Studio ([make.powerapps.com](make.powerapps.com)). 
+    1. In the Create tab on the left, select Create from other Sources. Select Open on the Left, and then Browse Files. Select the File PowerAppExport/Microsoft.PowerApps/apps.958791291695911168/N963c2303-a452-45a7-b3e3-66a6448bb50a-document.msapp.
+    2. 
+
+
 ## How to build it from scratch
 
 If you are interested in building this application from scratch, I have documented every step in the [HowToBuildIt.md](HowToBuildIt.md) file.
