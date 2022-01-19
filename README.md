@@ -42,3 +42,7 @@ To view the parsed results, the user must click on a PDF file from the PowerApp 
 ## How to build it from scratch
 
 If you are interested in building this application from scratch, I have documented every step in the [HowToBuildIt.md](HowToBuildIt.md) file.
+
+## Feedback welcomed! 
+
+If you have any feedback for me, feel free to open an issue or contact me directly
