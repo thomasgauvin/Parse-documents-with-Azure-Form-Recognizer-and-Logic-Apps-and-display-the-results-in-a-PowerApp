@@ -2,9 +2,15 @@
 
 # Table of contents:
 
-1. [Logic App A: Process uploaded documents from Blob Storage with Form Recognizer and store results to Blob Storage](#1-logic-app-a-process-uploaded-documents-from-blob-storage-with-form-recognizer-and-store-results-to-blob-storage)
-2. [Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body](#2-logic-app-b-upon-post-request-retrieve-content-of-parsed-results-from-blob-storage-and-respond-to-request-with-content-in-body)
-3. [PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results](#3-powerapp-display-folders-and-files-from-blob-storage-display-pdfs-and-call-logic-app-b-using-custom-connector-to-display-parsed-results)
+- [1. Logic App A: Process uploaded documents from Blob Storage with Form Recognizer and store results to Blob Storage](#1-logic-app-a--process-uploaded-documents-from-blob-storage-with-form-recognizer-and-store-results-to-blob-storage)
+  * [Deploy Azure resources](#deploy-azure-resources)
+  * [Implement Logic App A Logic](#implement-logic-app-a-logic)
+- [2. Logic App B: Upon POST request, retrieve content of parsed results from Blob Storage and respond to request with content in body](#2-logic-app-b--upon-post-request--retrieve-content-of-parsed-results-from-blob-storage-and-respond-to-request-with-content-in-body)
+  * [Deploy Azure resources](#deploy-azure-resources-1)
+  * [Implement Logic App B logic](#implement-logic-app-b-logic)
+- [3. PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results](#3-powerapp--display-folders-and-files-from-blob-storage--display-pdfs-and-call-logic-app-b-using-custom-connector-to-display-parsed-results)
+  * [Implementing the PowerApp](#implementing-the-powerapp)
+  * [Debugging](#debugging)
 
 <br/>
 
@@ -259,6 +265,8 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
 # 3. PowerApp: Display folders and files from Blob Storage, display PDFs and call Logic App B using custom connector to display parsed results 
 
 ![Untitled Diagram drawio (13)](https://user-images.githubusercontent.com/35609369/149404706-26091316-10ca-4689-a1f8-7fdbc9849664.png)
+
+## Implementing the PowerApp
 
 1. Go to make.powerapps.com and make a new Blank Canvas App, making sure to select the `Tablet` format
 
