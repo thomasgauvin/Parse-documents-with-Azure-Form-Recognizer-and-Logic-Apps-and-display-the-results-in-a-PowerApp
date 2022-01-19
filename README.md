@@ -466,9 +466,9 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
         Select(Parent); Set(PDFPath, Concatenate(ThisItem.DisplayName, ".json")); Set(ParsedPDF, 'fetch-documents'.callAPI({'api-version':"2016-10-01", sp: "/triggers/manual/run", sv: "1.0", sig: "1B-[ABRIDGED]-3dz8", 'Content-Type': "application/json", filePath: Concatenate("/documents-parsed/", PDFPath)}));
         ```
 
-        Here, we set PDFPath (a global variable), to the name of the selected file, with the added .json file extension as we are retrieving the parsed files from our Blob Storage.
+        Here `Set(PDFPath, Concatenate(ThisItem.DisplayName, ".json"));`, we set PDFPath (a global variable), to the name of the selected file, with the added .json file extension as we are retrieving the parsed files from our Blob Storage.
 
-        We also set ParsedPDF, a global variable containing the response of the Custom Connector API Call. We call the custom connector (in my case `fetch-documents`), calling the callAPI method and passing all the required parameters as we did earlier when we were testing our custom connector.
+        Here `Set(ParsedPDF, 'fetch-documents'.callAPI({'api-version':"2016-10-01", sp: "/triggers/manual/run", sv: "1.0", sig: "1B-[ABRIDGED]-3dz8", 'Content-Type': "application/json", filePath: Concatenate("/documents-parsed/", PDFPath)}))`, we also set ParsedPDF, a global variable containing the response of the Custom Connector API Call. We call the custom connector (in my case `fetch-documents`), calling the callAPI method and passing all the required parameters as we did earlier when we were testing our custom connector.
 
     4. From the Insert tab, insert a Text > HTML Text
     5. Set the text of the HTML Text as ParsedPDF.fileContent.
