@@ -289,6 +289,9 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
     </details>
 
 2. Implement the folder view of documents from the Blob Storage following this [tutorial](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage)
+    <details>
+    <summary>Steps</summary>
+
     1. Connect your PowerApp to the Azure Blob Storage account ([as documented](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage#create-canvas-app-with-azure-blob-storage-connection))
         1. On the left, select the Data tab.
         2. Click the Add data button, searching for Azure Blob Storage (see screenshot)
@@ -326,49 +329,55 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
             ![](/images/2022-01-19-09-50-09.png)
             ![](/images/2022-01-19-09-59-46.png)
             </details>
+    </details>
 
-    3. Implement the file upload [as documented](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage#upload-files-to-azure-blob-storage)
-        1. From the Insert tab, search for Add Picture and add it to your PowerApp
-        2. Set the `Text` to `Select PDF`
-        3. Resize the button to fit below the folder view
-        4. From the Insert tab, search for Button and add it to your PowerApp
-        5. Set the `Text` to `Upload`
-        6. From the Insert tab, search for `Text input` and add it to your PowerApp
-        7. Set the `Text` to `Filename`
-        8. Set the `OnSelect` property of the Button to `AzureBlobStorage.CreateFile(Gallery1.Selected.Name, TextInput1.Text, UploadedImage1.Image)`
-        9. Test the application to see if you can upload a new file. Note that when uploading, select any type of file to have the option to upload PDFs when selecting your file. You will have to click out of your parent folder and back to see the contents of the folder refresh.
+3. Implement the file upload [as documented](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage#upload-files-to-azure-blob-storage)
+    <details>
+    <summary>Steps</summary>
 
-            <details>
-            <summary>Screenshots</summary>
+    1. From the Insert tab, search for Add Picture and add it to your PowerApp
+    2. Set the `Text` to `Select PDF`
+    3. Resize the button to fit below the folder view
+    4. From the Insert tab, search for Button and add it to your PowerApp
+    5. Set the `Text` to `Upload`
+    6. From the Insert tab, search for `Text input` and add it to your PowerApp
+    7. Set the `Text` to `Filename`
+    8. Set the `OnSelect` property of the Button to `AzureBlobStorage.CreateFile(Gallery1.Selected.Name, TextInput1.Text, UploadedImage1.Image)`
+    9. Test the application to see if you can upload a new file. Note that when uploading, select any type of file to have the option to upload PDFs when selecting your file. You will have to click out of your parent folder and back to see the contents of the folder refresh.
 
-            ![](/images/2022-01-19-10-03-22.png)
-            ![](/images/2022-01-19-10-04-32.png)
-            ![](/images/2022-01-19-10-05-41.png)
-            ![](/images/2022-01-19-10-09-59.png)
-            </details>
+        <details>
+        <summary>Screenshots</summary>
 
-        10. (Optimization, skip if you are content with the workaround noted above to refresh the folder contents) Set the `Items` of `Gallery 2` to `SecondLevelList`. `SecondLevelList` is a global variable which will be set later.
-        11. Add the following code to the `OnSelect` of the upload Button
-        `ClearCollect(SecondLevelList, AzureBlobStorage.ListFolderV2(Gallery1.Selected.Id).value);`
-        12. Set the `OnSelect` property of the `NextArrow` of `Gallery 1` to `Select(Parent); ClearCollect(SecondLevelList, AzureBlobStorage.ListFolderV2(Gallery1.Selected.Id).value);`
-        13. Test your application, uploading 
+        ![](/images/2022-01-19-10-03-22.png)
+        ![](/images/2022-01-19-10-04-32.png)
+        ![](/images/2022-01-19-10-05-41.png)
+        ![](/images/2022-01-19-10-09-59.png)
+        </details>
 
-            <details>
-            <summary>Screenshots</summary>
+    10. (Optimization, skip if you are content with the workaround noted above to refresh the folder contents) Set the `Items` of `Gallery 2` to `SecondLevelList`. `SecondLevelList` is a global variable which will be set later.
+    11. Add the following code to the `OnSelect` of the upload Button
+    `ClearCollect(SecondLevelList, AzureBlobStorage.ListFolderV2(Gallery1.Selected.Id).value);`
+    12. Set the `OnSelect` property of the `NextArrow` of `Gallery 1` to `Select(Parent); ClearCollect(SecondLevelList, AzureBlobStorage.ListFolderV2(Gallery1.Selected.Id).value);`
+    13. Test your application, uploading 
 
-            ![](/images/2022-01-19-10-23-35.png)
-            ![](/images/2022-01-19-10-23-19.png)
-            ![](/images/2022-01-19-10-24-54.png)
-            </details>
+        <details>
+        <summary>Screenshots</summary>
 
-    4. Display the selected PDF
-        1. From the Insert tab, insert the `PDF viewer (experimental)`
-        2. Set the `Document` attribute to `AzureBlobStorage.GetFileContent(Gallery2.Selected.Id)`
-        3. Test that the PDF viewer is working. It may take some time to load the PDF or you may have to click out of the currently selected PDF to another one to see the PDF viewer in effect.
+        ![](/images/2022-01-19-10-23-35.png)
+        ![](/images/2022-01-19-10-23-19.png)
+        ![](/images/2022-01-19-10-24-54.png)
+        </details>
+    
+    </details>
 
-            <details>
-            <summary>Screenshot</summary>
+4. Display the selected PDF
+    1. From the Insert tab, insert the `PDF viewer (experimental)`
+    2. Set the `Document` attribute to `AzureBlobStorage.GetFileContent(Gallery2.Selected.Id)`
+    3. Test that the PDF viewer is working. It may take some time to load the PDF or you may have to click out of the currently selected PDF to another one to see the PDF viewer in effect.
 
-            ![](/images/2022-01-19-10-26-38.png)
-            ![](/images/2022-01-19-10-28-55.png)
-            </details>
+        <details>
+        <summary>Screenshot</summary>
+
+        ![](/images/2022-01-19-10-26-38.png)
+        ![](/images/2022-01-19-10-28-55.png)
+        </details>
