@@ -282,11 +282,11 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
 
 1. Go to make.powerapps.com and make a new Blank Canvas App, making sure to select the `Tablet` format
 
-<details>
-<summary>Screenshot</summary>
+    <details>
+    <summary>Screenshot</summary>
 
-![](/images/2022-01-18-16-19-04.png)
-</details>
+    ![](/images/2022-01-18-16-19-04.png)
+    </details>
 
 2. Implement the folder view of documents from the Blob Storage following this [tutorial](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage)
     1. Connect your PowerApp to the Azure Blob Storage account ([as documented](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage#create-canvas-app-with-azure-blob-storage-connection))
