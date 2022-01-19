@@ -463,6 +463,9 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
         ![](/images/2022-01-19-12-34-09.png)
         </details>
 
+<br/>
+
+## Debugging
 
 *NOTE: In my experience, calling the Custom Connector from the PowerApp can be a bit tricky. For instance, while trying to implement, I have gotten this issue:*
 
