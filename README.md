@@ -64,96 +64,96 @@ Logic App A is responsible for processing uploaded forms in the background. Upon
     7. Set Number of blobs to return to `10`
     8. How often do you want to check for items: once per minute
 
-    <details>
-    <summary>Screenshots</summary>
+        <details>
+        <summary>Screenshots</summary>
 
-    ![](/images/2022-01-13-16-00-20.png)
-    ![](/images/2022-01-13-16-11-14.png)
-    </details>
+        ![](/images/2022-01-13-16-00-20.png)
+        ![](/images/2022-01-13-16-11-14.png)
+        </details>
 3. Add a new step, search for `Parse JSON`
     1. Set the Content as List of File (from the dynamic content modal)
     2. Set the Schema as follows ([as documented](https://docs.microsoft.com/en-us/connectors/azureblobconnector/#blobmetadata)):
-    <details>
-    <summary>Schema</summary>
+        <details>
+        <summary>Schema</summary>
 
-    ```
-    {
-        "properties": {
-            "DisplayName": {
-                "type": "string"
+        ```
+        {
+            "properties": {
+                "DisplayName": {
+                    "type": "string"
+                },
+                "ETag": {
+                    "type": "string"
+                },
+                "FileLocator": {
+                    "type": "string"
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "IsFolder": {
+                    "type": "boolean"
+                },
+                "LastModified": {
+                    "type": "string"
+                },
+                "LastModifiedBy": {},
+                "MediaType": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Path": {
+                    "type": "string"
+                },
+                "Size": {
+                    "type": "integer"
+                }
             },
-            "ETag": {
-                "type": "string"
-            },
-            "FileLocator": {
-                "type": "string"
-            },
-            "Id": {
-                "type": "string"
-            },
-            "IsFolder": {
-                "type": "boolean"
-            },
-            "LastModified": {
-                "type": "string"
-            },
-            "LastModifiedBy": {},
-            "MediaType": {
-                "type": "string"
-            },
-            "Name": {
-                "type": "string"
-            },
-            "Path": {
-                "type": "string"
-            },
-            "Size": {
-                "type": "integer"
-            }
-        },
-        "type": "object"
-    }
-    ```
-    </details>
+            "type": "object"
+        }
+        ```
+        </details>
 
-    <details>
-    <summary>Screenshot</summary>
+        <details>
+        <summary>Screenshot</summary>
 
-    ![](/images/2022-01-13-16-14-59.png)
-    </details>
+        ![](/images/2022-01-13-16-14-59.png)
+        </details>
 4. Add a new step, `Get blob Content (V2)`
     1. For the Storage Account name, select `Use connection settings`
     2. To specify the blob, select Id from the Dynamic content modal
     3. Set Infer content type to `yes`
-    <details>
-    <summary>Screenshot</summary>
+        <details>
+        <summary>Screenshot</summary>
 
-    ![](/images/2022-01-13-16-25-02.png)
-    </details>
+        ![](/images/2022-01-13-16-25-02.png)
+        </details>
 5. Add a new step, searching for Analyze Layout from the Form Recognizer service.
     1. Enter a connection name for your form recognizer, in my case `documentparsingformrecog`
     2. In another tab, retrieve your Form Recognizer service Endpoint URL and Account key in the Azure Portal.
     3. Enter your Endpoint URL, in my case `https://documentparsingformrecog.cognitiveservices.azure.com/`
     4. Enter your Account Key & click create
     5. Set Document/Image file content as `File Content` from the dynamic content modal
-    <details>
-    <summary>Screenshots</summary>
+        <details>
+        <summary>Screenshots</summary>
 
-    ![](/images/2022-01-13-16-29-54.png)
-    ![](/images/2022-01-13-16-29-06.png)
-    ![](/images/2022-01-13-16-31-15.png)
-    </details>
+        ![](/images/2022-01-13-16-29-54.png)
+        ![](/images/2022-01-13-16-29-06.png)
+        ![](/images/2022-01-13-16-31-15.png)
+        </details>
 6. Add a new step, searching for `Create blob V2`
     1. Set Storage account name as `Use connection settings`
     2. Set Folder path as `/documents-parsed`
     3. Set display name as `DisplayName.json`
     4. Set Blob content as `analyzeResult` from the dynamic content modal
 
-    <details>
-    <summary>Screenshot</summary>
+        <details>
+        <summary>Screenshot</summary>
 
-    ![](/images/2022-01-18-15-32-05.png)
-    </details>
+        ![](/images/2022-01-18-15-32-05.png)
+        </details>
 7. Save the logic app. 
 8. Test that the logic app is working properly
     1. From your resource group (in my case, `document-parsing-backend`), go to your storage account (in my case, `document-parsing-backend`)
@@ -168,14 +168,14 @@ Logic App A is responsible for processing uploaded forms in the background. Upon
         }
         ```
 
-    <details>
-    <summary>Screenshots</summary>
+        <details>
+        <summary>Screenshots</summary>
 
-    ![](/images/2022-01-18-15-34-23.png)
-    ![](/images/2022-01-18-15-35-40.png)
-    ![](/images/2022-01-18-15-37-52.png)
-    ![](/images/2022-01-18-15-38-56.png)
-    </details>
+        ![](/images/2022-01-18-15-34-23.png)
+        ![](/images/2022-01-18-15-35-40.png)
+        ![](/images/2022-01-18-15-37-52.png)
+        ![](/images/2022-01-18-15-38-56.png)
+        </details>
 
 <br/>
 
@@ -197,11 +197,11 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
     4. Select any Region
     5. Set Enable log analytics to `No`
     6. Click Review + Create
-    <details>
-    <summary>Screenshot</summary>
+        <details>
+        <summary>Screenshot</summary>
 
-    ![](/images/2022-01-18-15-53-21.png)
-    </details>
+        ![](/images/2022-01-18-15-53-21.png)
+        </details>
 
 #### Implement Logic App B logic
 
@@ -235,12 +235,12 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
     7. Set Blob path to filePath from the Dynamic Content modal
     8. Set Infer content type to No (we just want to extract the raw content)
 
-    <details>
-    <summary>Screenshots</summary>
+        <details>
+        <summary>Screenshots</summary>
 
-    ![](/images/2022-01-18-16-00-47.png)
-    ![](/images/2022-01-18-16-02-47.png)
-    </details>
+        ![](/images/2022-01-18-16-00-47.png)
+        ![](/images/2022-01-18-16-02-47.png)
+        </details>
 4. Add a new step, searching for `Response`
     1. Set Status Code as `200`
     2. Set Headers as `Content-Type` `application/json`
@@ -250,11 +250,11 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
             "fileContent": "[INSERT FILE CONTENT FROM DYNAMIC CONTENT MODAL]"
         }
         ```
-    <details>
-    <summary>Screenshot</summary>
+        <details>
+        <summary>Screenshot</summary>
 
-    ![](/images/2022-01-18-16-06-10.png)
-    </details>
+        ![](/images/2022-01-18-16-06-10.png)
+        </details>
 5. Save the Logic App. 
 6. From the Logic App designer, click `Run Trigger` > `Run with payload` to test your logic app.
     1. Leave URL as default
@@ -267,12 +267,12 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
         ```
     4. Press Run. You should see a Response Body with as an object, with a key fileContent and a value consisting of the contents of the JSON file (see screenshot)
 
-    <details>
-    <summary>Screenshots</summary>
+        <details>
+        <summary>Screenshots</summary>
 
-    ![](/images/2022-01-18-16-10-02.png)
-    ![](/images/2022-01-18-16-11-58.png)
-    </details>
+        ![](/images/2022-01-18-16-10-02.png)
+        ![](/images/2022-01-18-16-11-58.png)
+        </details>
 
 <br/>
 
@@ -280,4 +280,95 @@ Logic App B will provide an API to retrieve the contents of the Blob Storage fil
 
 ![Untitled Diagram drawio (13)](https://user-images.githubusercontent.com/35609369/149404706-26091316-10ca-4689-a1f8-7fdbc9849664.png)
 
+1. Go to make.powerapps.com and make a new Blank Canvas App, making sure to select the `Tablet` format
 
+<details>
+<summary>Screenshot</summary>
+
+![](/images/2022-01-18-16-19-04.png)
+</details>
+
+2. Implement the folder view of documents from the Blob Storage following this [tutorial](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage)
+    1. Connect your PowerApp to the Azure Blob Storage account ([as documented](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage#create-canvas-app-with-azure-blob-storage-connection))
+        1. On the left, select the Data tab.
+        2. Click the Add data button, searching for Azure Blob Storage (see screenshot)
+        3. To configure the Blob Storage connection, select `Authentication type` as `Access Key`, `Azure Storage Account name` as the name of your storage account in the Azure Portal, `Azure Storage Account Access Key` as the access key of your storage account (as retrieved previously).
+        4. Click connect
+            <details>
+            <summary>Screenshots</summary>
+
+            ![](/images/2022-01-19-09-38-39.png)
+            ![](/images/2022-01-19-09-40-23.png)
+            </details>
+    2. Implement the view to see Blob Storage containers and folders [as documented](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage#view-containers-and-files)
+        1. From the Insert tab, insert a Vertical Gallery
+        2. Set the data source for the Vertical Gallery to be Azure Blob Storage
+        3. Set the Items of the Vertical Gallery `Gallery1` to `AzureBlobStorage.ListRootFolderV2().value`
+        4. Set the layout of the Vertical Gallery to be `Title`
+        5. From the Insert tab, insert another Vertical Gallery
+        6. Set the Items of the Vertical Gallery `Gallery 2` to `AzureBlobStorage.ListFolderV2(Gallery1.Selected.Id).value`
+        7. Set the Layout as `Title`
+        8. For both Vertical Galleries `Gallery 1` and `Gallery 2`, set the Template Fill attribute to: 
+            ```
+            If(ThisItem.IsSelected,
+            RGBA(0,0,0,0.3), 
+            RGBA(0,0,0,0)
+            )       
+            ```
+        9. Reduce the size of the Font to 12 and the size of the arrow
+            <details>
+            <summary>Screenshots</summary>
+
+            ![](/images/2022-01-19-09-44-58.png)
+            ![](/images/2022-01-19-09-45-43.png)
+            ![](/images/2022-01-19-09-47-13.png)
+            ![](/images/2022-01-19-09-49-37.png)
+            ![](/images/2022-01-19-09-50-09.png)
+            ![](/images/2022-01-19-09-59-46.png)
+            </details>
+
+    3. Implement the file upload [as documented](https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-blob-storage#upload-files-to-azure-blob-storage)
+        1. From the Insert tab, search for Add Picture and add it to your PowerApp
+        2. Set the `Text` to `Select PDF`
+        3. Resize the button to fit below the folder view
+        4. From the Insert tab, search for Button and add it to your PowerApp
+        5. Set the `Text` to `Upload`
+        6. From the Insert tab, search for `Text input` and add it to your PowerApp
+        7. Set the `Text` to `Filename`
+        8. Set the `OnSelect` property of the Button to `AzureBlobStorage.CreateFile(Gallery1.Selected.Name, TextInput1.Text, UploadedImage1.Image)`
+        9. Test the application to see if you can upload a new file. Note that when uploading, select any type of file to have the option to upload PDFs when selecting your file. You will have to click out of your parent folder and back to see the contents of the folder refresh.
+
+            <details>
+            <summary>Screenshots</summary>
+
+            ![](/images/2022-01-19-10-03-22.png)
+            ![](/images/2022-01-19-10-04-32.png)
+            ![](/images/2022-01-19-10-05-41.png)
+            ![](/images/2022-01-19-10-09-59.png)
+            </details>
+
+        10. (Optimization, skip if you are content with the workaround noted above to refresh the folder contents) Set the `Items` of `Gallery 2` to `SecondLevelList`. `SecondLevelList` is a global variable which will be set later.
+        11. Add the following code to the `OnSelect` of the upload Button
+        `ClearCollect(SecondLevelList, AzureBlobStorage.ListFolderV2(Gallery1.Selected.Id).value);`
+        12. Set the `OnSelect` property of the `NextArrow` of `Gallery 1` to `Select(Parent); ClearCollect(SecondLevelList, AzureBlobStorage.ListFolderV2(Gallery1.Selected.Id).value);`
+        13. Test your application, uploading 
+
+            <details>
+            <summary>Screenshots</summary>
+
+            ![](/images/2022-01-19-10-23-35.png)
+            ![](/images/2022-01-19-10-23-19.png)
+            ![](/images/2022-01-19-10-24-54.png)
+            </details>
+
+    4. Display the selected PDF
+        1. From the Insert tab, insert the `PDF viewer (experimental)`
+        2. Set the `Document` attribute to `AzureBlobStorage.GetFileContent(Gallery2.Selected.Id)`
+        3. Test that the PDF viewer is working. It may take some time to load the PDF or you may have to click out of the currently selected PDF to another one to see the PDF viewer in effect.
+
+            <details>
+            <summary>Screenshot</summary>
+
+            ![](/images/2022-01-19-10-26-38.png)
+            ![](/images/2022-01-19-10-28-55.png)
+            </details>
