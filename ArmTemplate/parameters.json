@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_azureblob_name": {
+            "value": null
+        },
+        "connections_azureblob_1_name": {
+            "value": null
+        },
+        "connections_formrecognizer_name": {
+            "value": null
+        },
+        "workflows_documentprocessingbackend_name": {
+            "value": null
+        },
+        "workflows_documents_parsed_fetching_name": {
+            "value": null
+        },
+        "storageAccounts_documentstoragebackend_name": {
+            "value": null
+        },
+        "accounts_documentparsingformrecog_name": {
+            "value": null
+        }
+    }
+}
