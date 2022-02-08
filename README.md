@@ -33,6 +33,7 @@ To view the parsed results, the user must click on a PDF file from the PowerApp 
     1. Under the Data tab, select Custom Connectors. 
     2. Click New Custom Connector. Select Import from OpenAPI file.
     3. Select the CustomConnector/fetch-documents.swagger.json file
+    4. Edit the Custom Connector to add the new Host, Base URL and default parameters according to the documents-parsed-fetching logic app
 
 5. In the PowerApps Studio ([make.powerapps.com](make.powerapps.com)). 
     1. In the Create tab on the left, select Create from other Sources. Select Open on the Left, and then Browse Files. Select the File PowerAppExport/Microsoft.PowerApps/apps.958791291695911168/N963c2303-a452-45a7-b3e3-66a6448bb50a-document.msapp from this repository.
